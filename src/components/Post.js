@@ -1,30 +1,29 @@
 import React from "react";
+import {fetchPost} from "../actions/posts";
 import {connect} from "react-redux";
 
 class Post extends React.Component {
-
-    displayUserHeader() {
-        if(!this.props.user) {
-            return null
-        }
-
-        return <h4>{this.props.user.name}</h4>
+    componentDidMount() {
+        this.props.fetchPost(this.props.match.params.id);
     }
 
     render() {
         const post = this.props.post;
+
+        if(!post) {
+            return null;
+        }
+
         return (
-            <div>
-                <h2>{post.title}</h2>
-                <p>{post.title}</p>
-                {this.displayUserHeader()}
-            </div>
+            <h1>{post.title}</h1>
         )
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
-    return {user: state.users.find(user => user.id === ownProps.post.userId)}
+    const postId = parseInt(ownProps.match.params.id);
+
+    return {post: state.posts.find(post => post.id === postId)}
 };
 
-export default connect(mapStateToProps)(Post);
+export default connect(mapStateToProps, {fetchPost})(Post);

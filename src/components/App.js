@@ -1,13 +1,13 @@
 import React from "react";
-import PostList from "./PostList";
+import SiteHeader from "./SiteHeader";
+import AppRouter from "../router";
 
 const App = () => {
     return (
         <div>
-            <h2>My First Blog!</h2>
-            <PostList />
+            <SiteHeader/>
+            <AppRouter/>
         </div>
-
     )
 };
 

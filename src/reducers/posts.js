@@ -1,9 +1,28 @@
-import {FETCH_POSTS} from "../actions/actionTypes";
+import {FETCH_POST, FETCH_POSTS} from "../actions/actionTypes";
 
 export default function (state = [], action) {
-    if (action.type === FETCH_POSTS) {
-        return action.payload
-    }
+    switch (action.type) {
+        case FETCH_POSTS:
+            return action.payload;
+        case FETCH_POST:
+            const newPost = action.payload;
+            let replaced = false;
 
-    return state
-};
+            let posts = state.map(post => {
+                if (post.id === newPost.id) {
+                    replaced = true;
+                    return newPost;
+                }
+
+                return post;
+            });
+
+            if (!replaced) {
+                posts.push(newPost);
+            }
+
+            return posts;
+        default:
+            return state
+    }
+}
